@@ -1,0 +1,8 @@
+# LaTeX build output. The published PDF is built by GitHub Actions.
+build/
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz

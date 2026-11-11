@@ -1,0 +1,63 @@
+name: Publish resume
+
+# Every push to main compiles resume.tex and publishes it to
+# https://quinnbooth.github.io/resumes/Quinn_Booth_Resume.pdf
+# (Settings > Pages > Source must be "GitHub Actions".)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Runs latexmk with the repo's .latexmkrc, so it builds exactly like
+      # `latexmk` does locally (output in build/).
+      - uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume.tex
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp build/resume.pdf _site/Quinn_Booth_Resume.pdf
+          # quinnbooth.github.io/resumes/ on its own goes straight to the PDF.
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Quinn Booth · Resume</title>
+          <meta http-equiv="refresh" content="0; url=Quinn_Booth_Resume.pdf">
+          <a href="Quinn_Booth_Resume.pdf">Quinn Booth · Resume (PDF)</a>
+          HTML
+
+      # Also attach the PDF to the run, handy for checking a build.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Quinn_Booth_Resume
+          path: build/resume.pdf
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

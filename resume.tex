@@ -1,0 +1,163 @@
+%% Quinn Booth: resume
+%%
+%% Build:    latexmk          (or just save in VS Code with LaTeX Workshop)
+%% Preview:  latexmk -pvc     (rebuilds and refreshes on every save)
+%% Output:   build/resume.pdf
+%%
+%% Pushing to main publishes it to
+%% https://quinnbooth.github.io/resumes/Quinn_Booth_Resume.pdf
+%%
+%% Uses only packages every TeX install ships, so it builds the same locally
+%% (TinyTeX) and on GitHub (full TeX Live).
+
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage[margin=0.55in, top=0.4in, bottom=0.4in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\renewcommand{\rmdefault}{ptm}  % Times
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+% Links worth clicking (papers, press) get a quiet ink blue so they read as
+% links without looking like a web page. Header links stay black.
+\definecolor{linkink}{HTML}{1F3F73}
+\newcommand{\link}[2]{\href{#1}{\textcolor{linkink}{#2}}}
+
+% Real text in the PDF, so copy-paste and applicant-tracking systems read it.
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+\hypersetup{
+  pdftitle={Quinn Booth - Resume},
+  pdfauthor={Quinn Booth},
+}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\raggedright
+\frenchspacing
+
+%% ---- Building blocks ------------------------------------------------------
+
+% A section heading with a thin rule under it.
+\newcommand{\sectionhead}[1]{%
+  \par\vspace{4pt}%
+  {\large\scshape #1}\par
+  \vspace{-6pt}\rule{\linewidth}{0.4pt}\par
+  \vspace{1pt}}
+
+% \role{Organization}{Place}{Title}{Dates}
+\newcommand{\role}[4]{%
+  \par\vspace{3pt}%
+  \textbf{#1} \hfill #2\par
+  \textit{#3} \hfill #4\par}
+
+% \subrole{Title}{Dates}: a second title under the same organization.
+\newcommand{\subrole}[2]{%
+  \par\vspace{2pt}%
+  \textit{#1} \hfill #2\par}
+
+% Tight bullet list.
+\newenvironment{bullets}{%
+  \begin{list}{\textbullet}{%
+    \setlength{\leftmargin}{1.1em}%
+    \setlength{\labelsep}{0.45em}%
+    \setlength{\labelwidth}{0.65em}%
+    \setlength{\itemsep}{0.5pt}%
+    \setlength{\parsep}{0pt}%
+    \setlength{\topsep}{1.5pt}%
+    \setlength{\partopsep}{0pt}}}%
+  {\end{list}}
+
+% Smaller text for asides: tech lists, advisors, the YC batch.
+\newcommand{\meta}[1]{{\small #1}}
+
+%% ---- Resume ---------------------------------------------------------------
+
+\begin{document}
+
+\begin{center}
+  {\Huge Quinn Booth}\par
+  \vspace{5pt}
+  \small
+  San Francisco, CA
+  \enspace$\cdot$\enspace \href{mailto:qabooth@gmail.com}{qabooth@gmail.com}
+  \enspace$\cdot$\enspace \href{https://quinnbooth.github.io}{quinnbooth.github.io}
+  \enspace$\cdot$\enspace \href{https://github.com/quinnbooth}{github.com/quinnbooth}
+  \enspace$\cdot$\enspace \href{https://www.linkedin.com/in/quinn-booth}{linkedin.com/in/quinn-booth}
+\end{center}
+
+%% ---------------------------------------------------------------------------
+\sectionhead{Experience}
+
+\role{Anchor Space}{San Francisco, CA}{Co-founder \meta{(Y Combinator W27)}}{2026 -- Present}
+\begin{bullets}
+  \item Building low-cost, software-defined laser ground stations that downlink 10x more satellite data than radio.
+\end{bullets}
+
+\role{Astranis}{San Francisco, CA}{Flight Software Engineer II}{Dec 2025 -- Nov 2026}
+\subrole{Flight Software Engineer}{Sep 2024 -- Nov 2025}
+\begin{bullets}
+  \item Led and integrated secure boot for our satellites' flight computers, a chain of trust from boot ROM through Arm
+        Trusted Firmware (TF-A) and U-Boot verified boot up to flight software. Slated for 5 satellites, dozens more to follow.
+  \item Built the secure boot PKI, from HSM-backed key generation and RSA-signed FIT images to eFuse provisioning
+        that permanently burns the root of trust into each flight computer.
+  \item Built the secure release pipeline, where isolated runners with locked-down ingress and egress verify each release
+        is a trusted secure build before signing it in a cloud HSM. Added a dedicated Bazel cache to speed up builds.
+  \item Re-architected the hosted payload system, which runs partners' software in QEMU virtual machines on our flight
+        computers with a minimal Yocto guest image, CPU pinning, memory caps, and automatic restarts. Built the quarantined
+        protobuf API that lets guests reach flight services only through allowlists and rate limits.
+  \item Built live telemetry monitoring, with rules that flag off-nominal spacecraft behavior and alert the team. Hired and
+        mentored the intern who built it with me, who is returning full-time.
+  \item Built an automated data review platform that queries telemetry and generates reports on a schedule in GitHub
+        Actions. Adopted by 10+ teams, many outside software, for dozens of recurring reports.
+  \item Cut on-call pages by up to 50\% by automating triage of radiation-induced upsets (SEUs), with new telemetry,
+        Grafana dashboards, reboot procedures, and warm boot on the flight computer. Trained operators to handle them.
+  \item Owned a major flight software release end to end, from testbed verification and bug triage to deployment in orbit.
+\end{bullets}
+
+%% ---------------------------------------------------------------------------
+\sectionhead{Research}
+
+\role{Creative Machines Lab, Columbia University}{New York, NY}{Hardware Lead \& Research Assistant \meta{(Prof.\ Hod Lipson)}}{May 2022 -- May 2024}
+\begin{bullets}
+  \item Led hardware for Robot Metabolism, truss robots that grow by absorbing parts from other robots, and worked on
+        the computer vision and cloud control that ran them. Featured in a \link{https://www.youtube.com/watch?v=sK5_pQV_QEA}{Bloomberg Originals documentary}.
+  \item Built cloud control (C++, REST) for a fleet of 16+ vibrating Particle Robots and designed their PCBs.
+\end{bullets}
+
+\role{Internet Real-Time Lab, Columbia University}{New York, NY}{Research Assistant \meta{(Prof.\ Henning Schulzrinne)}}{Sep 2023 -- Aug 2024}
+\begin{bullets}
+  \item Wrote C++ firmware for low-power LoRa IoT devices, improving energy efficiency more than 10x.
+\end{bullets}
+
+%% ---------------------------------------------------------------------------
+\sectionhead{Publications}
+
+\begin{bullets}
+  \item \link{https://www.science.org/doi/10.1126/sciadv.adu6897}{Robot metabolism: Toward machines that can grow by consuming other machines.}
+        \textit{Science Advances}, 2025.
+  \item \link{https://dl.acm.org/doi/10.1145/3803784.3816836}{Clay for the Creative Mind: Hands-On Robot Shaping Using Truss Links.}
+        \textit{ACM Creativity \& Cognition}, 2026.
+  \item \link{https://ieeexplore.ieee.org/document/10619984}{Robot Links: Towards Self-Assembling Truss Robots.}
+        \textit{IEEE ReMAR}, 2024.
+  \item \link{https://ieeexplore.ieee.org/document/10619983}{Vibrating Particle Robot.}
+        \textit{IEEE ReMAR}, 2024.
+\end{bullets}
+
+%% ---------------------------------------------------------------------------
+\sectionhead{Education}
+
+\par\vspace{4pt}%
+\textbf{Columbia University} \enspace B.S. Electrical Engineering, minor in Computer Science
+\meta{(GPA 3.94, Dean's List)} \hfill 2020 -- 2024\par
+
+%% ---------------------------------------------------------------------------
+\sectionhead{Skills}
+
+\textbf{Languages:} C++, Python, C, SystemVerilog, Verilog, SQL, JavaScript\par
+\textbf{Security:} Secure boot, PKI, HSMs, eFuse provisioning, TF-A, U-Boot, FIT image signing, RSA\par
+\textbf{Systems:} Flight software, Yocto, QEMU, protobuf, Bazel, pytest, Grafana, GCP, AWS, Git, FPGAs, PCB design
+
+\end{document}
