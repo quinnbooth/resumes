@@ -101,14 +101,14 @@
 \begin{bullets}
   \item Led and integrated secure boot for our satellites' flight computers, a chain of trust from boot ROM through Arm
         Trusted Firmware (TF-A) and U-Boot verified boot up to flight software. Slated for 5 satellites, dozens more to follow.
-  \item Built the secure boot PKI, from HSM-backed key generation and RSA-signed FIT images to eFuse provisioning
+  \item Implemented the secure boot PKI, from HSM-backed key generation and RSA-signed FIT images to eFuse provisioning
         that permanently burns the root of trust into each flight computer.
-  \item Built the secure release pipeline, where isolated runners with locked-down ingress and egress verify each release
+  \item Designed the secure release pipeline, where isolated runners with locked-down ingress and egress verify each release
         is a trusted secure build before signing it in a cloud HSM. Added a dedicated Bazel cache to speed up builds.
   \item Re-architected the hosted payload system, which runs partners' software in QEMU virtual machines on our flight
-        computers with a minimal Yocto guest image, CPU pinning, memory caps, and automatic restarts. Built the quarantined
+        computers with a minimal Yocto guest image, CPU pinning, memory caps, and automatic restarts. Wrote the quarantined
         protobuf API that lets guests reach flight services only through allowlists and rate limits.
-  \item Built live telemetry monitoring, with rules that flag off-nominal spacecraft behavior and alert the team. Hired and
+  \item Launched live telemetry monitoring, with rules that flag off-nominal spacecraft behavior and alert the team. Hired and
         mentored the intern who built it with me, who is returning full-time.
   \item Built an automated data review platform that queries telemetry and generates reports on a schedule in GitHub
         Actions. Adopted by 10+ teams, many outside software, for dozens of recurring reports.
@@ -124,7 +124,7 @@
 \begin{bullets}
   \item Led hardware for Robot Metabolism, truss robots that grow by absorbing parts from other robots, and worked on
         the computer vision and cloud control that ran them. Featured in a \link{https://www.youtube.com/watch?v=sK5_pQV_QEA}{Bloomberg Originals documentary}.
-  \item Built cloud control (C++, REST) for a fleet of 16+ vibrating Particle Robots and designed their PCBs.
+  \item Developed cloud control (C++, REST) for a fleet of 16+ vibrating Particle Robots and designed their PCBs.
 \end{bullets}
 
 \role{Internet Real-Time Lab, Columbia University}{New York, NY}{Research Assistant \meta{(Prof.\ Henning Schulzrinne)}}{Sep 2023 -- Aug 2024}
